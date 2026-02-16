@@ -4,6 +4,7 @@ from app.database import async_session_maker
 from sqlalchemy import select
 from sqlalchemy.orm import selectinload
 from datetime import datetime
+from fastapi import HTTPException, status
 
 async def create_poll(poll_data: PollCreate):
     try:
@@ -37,6 +38,8 @@ async def create_poll(poll_data: PollCreate):
             poll_obj = result.scalar_one()
             return poll_obj
             
+    except HTTPException as he:
+        raise he
     except Exception as e:
         raise HTTPException(
             status_code=status.HTTP_500_INTERNAL_SERVER_ERROR, 
@@ -58,6 +61,8 @@ async def get_poll(poll_id: str):
                     detail="Poll not found"
                 )
             return poll_obj
+    except HTTPException as he:
+        raise he
     except Exception as e:
         raise HTTPException(
             status_code=status.HTTP_500_INTERNAL_SERVER_ERROR, 

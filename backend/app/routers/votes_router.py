@@ -1,7 +1,8 @@
-from fastapi import APIRouter, HTTPException, Request, Response
+from fastapi import APIRouter, HTTPException, Request, Response, WebSocket, WebSocketDisconnect
+from fastapi.encoders import jsonable_encoder
 from app.models.request_models import VoteCreate
 import app.controllers.votes_controllers as votes_controller
-import app.utils.websocket_manager as manager
+from app.utils.websocket_manager import manager
 
 router = APIRouter()
 
@@ -17,6 +18,13 @@ async def vote(poll_id: str, vote: VoteCreate, request: Request, response: Respo
                 httponly=True, 
                 max_age=31536000
             )
+        # Broadcast the update to all connected clients
+        broadcast_msg = jsonable_encoder({
+            "status": "update",
+            "data": result["poll"]
+        })
+        await manager.broadcast(poll_id, broadcast_msg)
+
         return {
             "status": "success",
             "message": "Vote cast successfully",
@@ -29,7 +37,7 @@ async def vote(poll_id: str, vote: VoteCreate, request: Request, response: Respo
 
 #WS     /api/v1/ws/polls/{poll_id}
 @router.websocket("/ws/polls/{poll_id}")
-async def websocket_endpoint(websocket, poll_id):
+async def websocket_endpoint(websocket: WebSocket, poll_id: str):
     await manager.connect(poll_id, websocket)
 
     try:

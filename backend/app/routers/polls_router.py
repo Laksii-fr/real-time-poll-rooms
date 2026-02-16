@@ -14,6 +14,8 @@ async def create_poll(poll: PollCreate):
             "message": "Poll created successfully",
             "data": result
         }
+    except HTTPException as he:
+        raise he
     except Exception as e:
         raise HTTPException(status_code=500, detail=str(e))
 
@@ -28,10 +30,11 @@ async def get_poll(poll_id: str):
             "message": "Poll fetched successfully",
             "data": result
         }
+    except HTTPException as he:
+        raise he
     except Exception as e:
         raise HTTPException(status_code=500, detail=str(e))
 
-#GET    /api/v1/polls/{poll_id}/results
 
 @router.get("/polls/{poll_id}/results")
 async def get_poll_results(poll_id: str):
@@ -42,5 +45,7 @@ async def get_poll_results(poll_id: str):
             "message": "Poll results fetched successfully",
             "data": result
         }
+    except HTTPException as he:
+        raise he
     except Exception as e:
         raise HTTPException(status_code=500, detail=str(e))
