@@ -3,7 +3,7 @@
 A full-stack web application designed for creating, sharing, and voting on polls with real-time result updates. Built with a focus on seamless user experience, fairness, and instant data synchronization.
 
 ## 🚀 Public Deployment
-**[INSERT_DEPLOYED_APP_URL_HERE]**
+**[[CrowdSnap](https://real-time-poll-rooms-eight.vercel.app/)]**
 
 ## 🛠️ Tech Stack
 - **Frontend**: Next.js 14 (App Router), TypeScript, Tailwind CSS, Shadcn UI, Framer Motion
