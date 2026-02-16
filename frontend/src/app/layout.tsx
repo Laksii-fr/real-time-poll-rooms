@@ -14,8 +14,11 @@ const serif = Instrument_Serif({
 });
 
 export const metadata: Metadata = {
-  title: "Real-Time Poll Rooms",
+  title: "CrowdSnap - Real-Time Poll Rooms",
   description: "Create and vote on polls in real-time.",
+  icons: {
+    icon: "/Logo.png",
+  },
 };
 
 export default function RootLayout({
