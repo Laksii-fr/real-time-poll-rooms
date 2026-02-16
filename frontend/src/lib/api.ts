@@ -7,8 +7,10 @@ export async function createPoll(data: { question: string; options: string[] }) 
     body: JSON.stringify(data),
   });
   if (!response.ok) {
-    const error = await response.json();
-    throw new Error(error.message || 'Failed to create poll');
+    const errorData = await response.json();
+    const error = new Error(errorData.message || 'Failed to create poll') as any;
+    error.details = errorData.detail;
+    throw error;
   }
   return response.json();
 }

@@ -12,7 +12,7 @@ export function PollForm() {
   const [question, setQuestion] = useState("");
   const [options, setOptions] = useState(["", ""]);
   const [loading, setLoading] = useState(false);
-  const [error, setError] = useState<string | null>(null);
+  const [errors, setErrors] = useState<string[]>([]);
   const router = useRouter();
 
   const handleAddOption = () => setOptions([...options, ""]);
@@ -30,16 +30,22 @@ export function PollForm() {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    setError(null);
+    setErrors([]);
+    const newErrors: string[] = [];
 
     if (!question.trim()) {
-      setError("Question is required");
-      return;
+      newErrors.push("Question is required");
+    } else if (question.length < 5) {
+      newErrors.push("Question must be at least 5 characters");
     }
 
     const filteredOptions = options.map(o => o.trim()).filter(o => o !== "");
     if (filteredOptions.length < 2) {
-      setError("At least 2 non-empty options are required");
+      newErrors.push("At least 2 non-empty options are required");
+    }
+
+    if (newErrors.length > 0) {
+      setErrors(newErrors);
       return;
     }
 
@@ -48,7 +54,14 @@ export function PollForm() {
       const response = await createPoll({ question, options: filteredOptions });
       router.push(`/poll/${response.data.id}`);
     } catch (err: any) {
-      setError(err.message || "Something went wrong");
+        if (err.details && Array.isArray(err.details)) {
+            // Handle Pydantic validation errors
+            setErrors(err.details.map((e: any) => e.msg));
+        } else if (err.details && typeof err.details === 'string') {
+             setErrors([err.details]);
+        } else {
+            setErrors([err.message || "Something went wrong"]);
+        }
     } finally {
       setLoading(false);
     }
@@ -137,10 +150,18 @@ export function PollForm() {
           </Button>
         </div>
 
-        {error && (
-          <p className="text-sm font-medium text-destructive bg-destructive/5 p-3 rounded-lg border border-destructive/10 animate-in fade-in slide-in-from-top-1">
-            {error}
-          </p>
+        {errors.length > 0 && (
+          <div className="text-sm font-medium text-destructive bg-destructive/5 p-3 rounded-lg border border-destructive/10 animate-in fade-in slide-in-from-top-1">
+            {errors.length === 1 ? (
+                <p>{errors[0]}</p>
+            ) : (
+                <ul className="list-disc list-inside space-y-1">
+                    {errors.map((err, idx) => (
+                        <li key={idx}>{err}</li>
+                    ))}
+                </ul>
+            )}
+          </div>
         )}
       </form>
       </Card>
