@@ -1,0 +1,6 @@
+INFO:     Started server process [13128]
+INFO:     Waiting for application startup.
+INFO:     Application startup complete.
+INFO:     Uvicorn running on http://127.0.0.1:8003 (Press CTRL+C to quit)
+Database Engine Initialized with asyncpg
+INFO:     127.0.0.1:50822 - "GET /api/v1/polls/1 HTTP/1.1" 500 Internal Server Error

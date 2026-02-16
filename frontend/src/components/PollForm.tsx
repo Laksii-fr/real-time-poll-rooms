@@ -55,13 +55,16 @@ export function PollForm() {
   };
 
   return (
-    <Card className="w-full max-w-5xl mx-auto shadow-soft card-border p-8 pt-10">
-      <div className="space-y-1 mb-8">
-        <h1 className="text-3xl font-bold tracking-tight text-foreground">Create a live poll</h1>
-        <p className="text-muted-foreground">
-          Share the link and watch results update automatically.
-        </p>
-      </div>
+    <div className="w-full max-w-5xl mx-auto">
+      <h2 className="text-3xl font-serif font-bold text-stone-900 mb-6 pl-1">CrowdSnap</h2>
+      <Card className="w-full shadow-soft card-border p-8 pt-10">
+        <div className="space-y-1 mb-8">
+          <h1 className="text-3xl font-bold tracking-tight text-foreground">Create a live poll</h1>
+          <p className="text-muted-foreground">
+            Share it anywhere and see live results update automatically.
+          </p>
+        </div>
+
 
       <form onSubmit={handleSubmit} className="space-y-6">
         <div className="space-y-2">
@@ -140,6 +143,7 @@ export function PollForm() {
           </p>
         )}
       </form>
-    </Card>
+      </Card>
+    </div>
   );
 }

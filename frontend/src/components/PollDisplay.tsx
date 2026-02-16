@@ -71,8 +71,9 @@ export function PollDisplay({ initialPoll }: PollDisplayProps) {
   const totalVotes = (poll.options || []).reduce((sum, opt) => sum + opt.vote_count, 0);
 
   return (
-    <div className="space-y-6 animate-in fade-in duration-700">
-      <Card className="w-full max-w-5xl mx-auto shadow-soft card-border p-8 pt-10">
+    <div className="w-full max-w-5xl mx-auto space-y-6 animate-in fade-in duration-700">
+      <h2 className="text-3xl font-serif font-bold text-stone-900 pl-1">CrowdSnap</h2>
+      <Card className="w-full shadow-soft card-border p-8 pt-10">
         <div className="flex justify-between items-start mb-8">
           <div className="space-y-1 pr-4">
             <h1 className="text-3xl font-bold tracking-tight text-foreground lowercase">{poll.question}</h1>
