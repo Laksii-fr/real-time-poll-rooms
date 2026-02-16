@@ -65,12 +65,18 @@ export function PollForm() {
 
       <form onSubmit={handleSubmit} className="space-y-6">
         <div className="space-y-2">
-          <label className="text-sm font-semibold text-foreground">Question</label>
+          <div className="flex justify-between items-end">
+            <label className="text-sm font-semibold text-foreground">Question</label>
+            <span className="text-[10px] font-bold text-stone-400 uppercase tracking-widest leading-none">
+              {question.length}/200
+            </span>
+          </div>
           <Input
             placeholder="What should we build next?"
             value={question}
             onChange={(e) => setQuestion(e.target.value)}
             disabled={loading}
+            maxLength={200}
             className="bg-white border-border h-12 text-base px-4 focus:ring-1 focus:ring-foreground focus:border-foreground"
           />
         </div>
@@ -78,13 +84,19 @@ export function PollForm() {
         <div className="space-y-4">
           {options.map((option, index) => (
             <div key={index} className="space-y-2">
-              <label className="text-sm font-semibold text-foreground">Option {index + 1}</label>
+              <div className="flex justify-between items-end">
+                <label className="text-sm font-semibold text-foreground">Option {index + 1}</label>
+                <span className="text-[10px] font-bold text-stone-400 uppercase tracking-widest leading-none">
+                  {option.length}/200
+                </span>
+              </div>
               <div className="flex gap-3 items-center">
                 <Input
                   placeholder="Enter an option"
                   value={option}
                   onChange={(e) => handleOptionChange(index, e.target.value)}
                   disabled={loading}
+                  maxLength={200}
                   className="bg-white border-border h-11 text-base px-4 flex-1 focus:ring-1 focus:ring-foreground focus:border-foreground"
                 />
                 {options.length > 2 && (
