@@ -1,6 +1,5 @@
 from sqlalchemy.ext.asyncio import create_async_engine, AsyncSession
 from sqlalchemy.orm import sessionmaker, declarative_base
-from sqlalchemy.pool import NullPool
 from app.config import settings
 
 # Build DATABASE URL for localhost with username and password as "postgres"
@@ -10,7 +9,9 @@ DATABASE_URL = settings.DATABASE_URL
 engine = create_async_engine(
     DATABASE_URL,
     echo=False,
-    poolclass=NullPool,
+    pool_size=5,
+    max_overflow=10,
+    pool_pre_ping=False,
 )
 
 print("Database Engine Initialized")

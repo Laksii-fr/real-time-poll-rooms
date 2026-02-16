@@ -21,20 +21,20 @@ async def vote(poll_id: str, vote_data: VoteCreate, request: Request):
     try:
         async with async_session_maker() as session:
             async with session.begin():
-                #Validate poll exists
-                result = await session.execute(select(Poll).where(Poll.id == poll_id))
-                poll = result.scalar_one_or_none()
-                if not poll:
+                # Optimize: Validate Option and Poll in one go
+                # If the option exists and is linked to the poll_id, both match.
+                result = await session.execute(
+                    select(Option)
+                    .where(Option.id == vote_data.option_id)
+                    .where(Option.poll_id == poll_id)
+                )
+                option = result.scalar_one_or_none()
+                
+                if not option:
                     raise HTTPException(
                         status_code=status.HTTP_404_NOT_FOUND, 
-                        detail="Poll not found"
+                        detail="Option not found or does not belong to this poll"
                     )
-                
-                # Validate option exists and belongs to poll
-                result = await session.execute(select(Option).where(Option.id == vote_data.option_id).where(Option.poll_id == poll_id))
-                option = result.scalar_one_or_none()
-                if not option:
-                    raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="Option not found for this poll")
                 
                 # Insert new Vote
                 new_vote = Vote(
