@@ -22,8 +22,8 @@ app.add_middleware(
 app.include_router(polls_router.router, tags=["Polls"], prefix="/api/v1")
 app.include_router(votes_router.router, tags=["Votes"], prefix="/api/v1")
 
-@app.get("/health")
-async def root():
+@app.api_route("/health", methods=["GET", "HEAD"])
+async def health():
     return {"message": "API is working fine."}
 
 
