@@ -8,7 +8,8 @@ import { Progress } from "./ui/progress";
 import { Badge } from "./ui/badge";
 import { castVote, getWebSocketResponse } from "@/lib/api";
 import { cn } from "@/lib/utils";
-import { CheckCircle2, Share2, Copy, Check } from "lucide-react";
+import { CheckCircle2, Share2, Copy, Check, LayoutDashboard } from "lucide-react";
+import Link from "next/link";
 
 interface PollDisplayProps {
   initialPoll: Poll;
@@ -74,31 +75,43 @@ export function PollDisplay({ initialPoll }: PollDisplayProps) {
     <div className="w-full max-w-5xl mx-auto space-y-6 animate-in fade-in duration-700">
       <h2 className="text-3xl font-serif font-bold text-stone-900 pl-1">CrowdSnap</h2>
       <Card className="w-full shadow-soft card-border p-8 pt-10">
-        <div className="flex justify-between items-start mb-8">
+        <div className="flex justify-between items-start mb-8 gap-4">
           <div className="space-y-1 pr-4">
             <h1 className="text-3xl font-bold tracking-tight text-foreground lowercase">{poll.question}</h1>
             <p className="text-muted-foreground">
               {voted ? "Real-time results are updating automatically." : "Cast your vote below to see the current results."}
             </p>
           </div>
-          <Button 
-            variant="secondary" 
-            onClick={handleCopyLink} 
-            title="Copy shareable link" 
-            className="rounded-xl h-12 px-5 gap-2 font-bold shrink-0 transition-all hover:bg-stone-200"
-          >
-            {copied ? (
-              <>
-                <Check className="h-4 w-4 text-green-600" />
-                <span>Copied!</span>
-              </>
-            ) : (
-              <>
-                <Share2 className="h-4 w-4" />
-                <span>Copy link</span>
-              </>
-            )}
-          </Button>
+          <div className="flex gap-2 shrink-0">
+            <Button 
+              variant="secondary" 
+              onClick={handleCopyLink} 
+              title="Copy shareable link" 
+              className="rounded-xl h-12 px-5 gap-2 font-bold transition-all hover:bg-stone-200"
+            >
+              {copied ? (
+                <>
+                  <Check className="h-4 w-4 text-green-600" />
+                  <span>Copied!</span>
+                </>
+              ) : (
+                <>
+                  <Share2 className="h-4 w-4" />
+                  <span>Copy link</span>
+                </>
+              )}
+            </Button>
+            <Button 
+              variant="outline" 
+              asChild
+              className="rounded-xl h-12 px-5 gap-2 font-bold transition-all border-stone-200 hover:bg-stone-50"
+            >
+              <Link href={`/poll/${poll.id}/dashboard`}>
+                <LayoutDashboard className="h-4 w-4" />
+                <span>Poll Analytics</span>
+              </Link>
+            </Button>
+          </div>
         </div>
 
         <div className="space-y-6">

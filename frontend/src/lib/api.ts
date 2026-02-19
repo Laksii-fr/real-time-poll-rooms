@@ -16,7 +16,9 @@ export async function createPoll(data: { question: string; options: string[] }) 
 }
 
 export async function getPoll(pollId: string) {
-  const response = await fetch(`${API_URL}/api/v1/polls/${pollId}`);
+  const response = await fetch(`${API_URL}/api/v1/polls/${pollId}`, {
+    credentials: 'include',
+  });
   if (!response.ok) {
     if (response.status === 404) throw new Error('Poll not found');
     throw new Error('Failed to fetch poll');
@@ -29,6 +31,7 @@ export async function castVote(pollId: string, optionId: string) {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify({ option_id: optionId }),
+    credentials: 'include',
   });
   
   if (!response.ok) {
