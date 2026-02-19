@@ -9,7 +9,7 @@ from app.routers import polls_router, votes_router
 
 app = FastAPI()
 
-origins = [settings.CLIENT_ORIGIN]
+origins = [o.strip() for o in settings.CLIENT_ORIGIN.split(",")]
 
 app.add_middleware(
     CORSMiddleware,
