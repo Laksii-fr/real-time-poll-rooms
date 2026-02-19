@@ -75,19 +75,19 @@ export function PollDisplay({ initialPoll }: PollDisplayProps) {
     <div className="w-full max-w-5xl mx-auto space-y-6 animate-in fade-in duration-700">
       <h2 className="text-3xl font-serif font-bold text-stone-900 pl-1">CrowdSnap</h2>
       <Card className="w-full shadow-soft card-border p-8 pt-10">
-        <div className="flex justify-between items-start mb-8 gap-4">
-          <div className="space-y-1 pr-4">
+        <div className="mb-8 flex flex-col gap-4 md:flex-row md:items-start md:justify-between">
+          <div className="space-y-1 md:pr-4">
             <h1 className="text-3xl font-bold tracking-tight text-foreground lowercase">{poll.question}</h1>
             <p className="text-muted-foreground">
               {voted ? "Real-time results are updating automatically." : "Cast your vote below to see the current results."}
             </p>
           </div>
-          <div className="flex gap-2 shrink-0">
+          <div className="flex w-full flex-col gap-2 sm:w-auto sm:flex-row md:shrink-0">
             <Button 
               variant="secondary" 
               onClick={handleCopyLink} 
               title="Copy shareable link" 
-              className="rounded-xl h-12 px-5 gap-2 font-bold transition-all hover:bg-stone-200"
+              className="h-12 gap-2 rounded-xl px-5 font-bold transition-all hover:bg-stone-200"
             >
               {copied ? (
                 <>
@@ -104,7 +104,7 @@ export function PollDisplay({ initialPoll }: PollDisplayProps) {
             <Button 
               variant="outline" 
               asChild
-              className="rounded-xl h-12 px-5 gap-2 font-bold transition-all border-stone-200 hover:bg-stone-50"
+              className="h-12 gap-2 rounded-xl border-stone-200 px-5 font-bold transition-all hover:bg-stone-50"
             >
               <Link href={`/poll/${poll.id}/dashboard`}>
                 <LayoutDashboard className="h-4 w-4" />
