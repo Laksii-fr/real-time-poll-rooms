@@ -15,6 +15,11 @@ export interface CreatePollRequest {
   options: string[];
 }
 
+export interface GeneratedPoll {
+  question: string;
+  options: string[];
+}
+
 export interface ApiResponse<T> {
   status: string;
   message?: string;

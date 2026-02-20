@@ -1,5 +1,25 @@
 const API_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:8000';
 
+export interface GeneratePollResponse {
+  question: string;
+  options: string[];
+}
+
+export async function generatePoll(prompt: string): Promise<{ data: GeneratePollResponse }> {
+  const response = await fetch(`${API_URL}/api/v1/polls/generate`, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ prompt }),
+  });
+  if (!response.ok) {
+    const errorData = await response.json();
+    const error = new Error(errorData.detail || errorData.message || 'Failed to generate poll');
+    throw error;
+  }
+  const json = await response.json();
+  return { data: json.data };
+}
+
 export async function createPoll(data: { question: string; options: string[] }) {
   const response = await fetch(`${API_URL}/api/v1/polls`, {
     method: 'POST',

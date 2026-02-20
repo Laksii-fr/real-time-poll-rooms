@@ -1,9 +1,27 @@
 from fastapi import APIRouter, HTTPException, WebSocket, WebSocketDisconnect
 from pydantic import BaseModel
-from app.models.request_models import PollCreate, VoteCreate
+from app.models.request_models import PollCreate, VoteCreate, GeneratePollRequest
 import app.controllers.polls_controllers as polls_controller
+from app.services.ai_poll_service import generate_poll_from_prompt
 
 router = APIRouter()
+
+
+@router.post("/polls/generate", response_model=None)
+async def generate_poll(body: GeneratePollRequest):
+    """Generate poll question and options from a text prompt using AI. Does not create a poll."""
+    try:
+        result = generate_poll_from_prompt(body.prompt)
+        return {
+            "status": "success",
+            "message": "Poll generated successfully",
+            "data": result,
+        }
+    except ValueError as e:
+        raise HTTPException(status_code=400, detail=str(e))
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=str(e))
+
 
 @router.post("/polls")
 async def create_poll(poll: PollCreate):

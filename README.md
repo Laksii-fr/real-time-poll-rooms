@@ -12,7 +12,7 @@ A full-stack web application designed for creating, sharing, and voting on polls
 - **Real-time**: WebSocket connections for instant vote broadcasting
 
 ## ✨ Key Features
-1.  **Poll Creation**: Users can create polls with a question and multiple options.
+1.  **Poll Creation**: Users can create polls with a question and multiple options. AI-assisted creation: describe a topic in text to get a suggested question and options to edit before creating. **AI-assisted creation**: describe a topic in plain text and get a suggested question and options to edit before creating the poll.
 2.  **Instant Sharing**: Generates a unique, shareable link immediately after creation.
 3.  **Real-Time Ops**: utilizing WebSockets to push vote updates to all connected clients instantly without page refreshes.
 4.  **Smart Fairness**: Anti-abuse systems to prevent duplicate voting (see below).
@@ -48,7 +48,7 @@ To ensure the integrity of poll results, CrowdSnap implements a dual-layer prote
     ```bash
     pip install -r requirements.txt
     ```
-3.  Set up your `.env` file with `DATABASE_URL`.
+3.  Set up your `.env` file with `DATABASE_URL`. For **AI poll generation**, add `OPENAI_API_KEY=your-key` (optional; without it, the create-poll page still works with manual entry only).
 4.  Run the server:
     ```bash
     uvicorn app.main:app --reload
