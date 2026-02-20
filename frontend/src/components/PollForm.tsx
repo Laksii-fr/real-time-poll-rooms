@@ -76,9 +76,11 @@ export function PollForm({ prefilled }: PollFormProps) {
 
   return (
     <div className="w-full">
-      <div className="space-y-1 mb-8">
-        <h1 className="text-3xl font-bold tracking-tight text-foreground">Create a live poll</h1>
-        <p className="text-muted-foreground">
+      <div className="space-y-2 mb-8">
+        <h1 className="text-2xl md:text-3xl font-bold tracking-tight text-foreground">
+          Create a live poll
+        </h1>
+        <p className="text-muted-foreground text-sm md:text-base">
           Share it anywhere and see live results update automatically.
         </p>
       </div>
@@ -97,7 +99,7 @@ export function PollForm({ prefilled }: PollFormProps) {
             onChange={(e) => setQuestion(e.target.value)}
             disabled={loading}
             maxLength={500}
-            className="bg-white border-border h-12 text-base px-4 focus:ring-1 focus:ring-foreground focus:border-foreground"
+            className="rounded-xl bg-white/80 border-border h-12 text-base px-4 shadow-sm focus:ring-2 focus:ring-stone-400/40 focus:border-stone-400 transition-shadow"
           />
         </div>
 
@@ -117,7 +119,7 @@ export function PollForm({ prefilled }: PollFormProps) {
                   onChange={(e) => handleOptionChange(index, e.target.value)}
                   disabled={loading}
                   maxLength={200}
-                  className="bg-white border-border h-11 text-base px-4 flex-1 focus:ring-1 focus:ring-foreground focus:border-foreground"
+                  className="rounded-xl bg-white/80 border-border h-11 text-base px-4 flex-1 shadow-sm focus:ring-2 focus:ring-stone-400/40 focus:border-stone-400 transition-shadow"
                 />
                 {options.length > 2 && (
                   <Button
@@ -125,7 +127,7 @@ export function PollForm({ prefilled }: PollFormProps) {
                     variant="secondary"
                     onClick={() => handleRemoveOption(index)}
                     disabled={loading}
-                    className="h-11 px-5 font-medium text-stone-600 hover:bg-stone-200"
+                    className="h-11 px-5 font-medium rounded-xl text-stone-600 hover:bg-stone-200/80 border border-border"
                   >
                     Remove
                   </Button>
@@ -135,27 +137,27 @@ export function PollForm({ prefilled }: PollFormProps) {
           ))}
         </div>
 
-        <div className="flex gap-3 pt-4">
+        <div className="flex flex-wrap gap-3 pt-6">
           <Button
             type="button"
             variant="secondary"
             onClick={handleAddOption}
             disabled={loading}
-            className="h-12 px-6 font-semibold text-stone-700 hover:bg-stone-200"
+            className="h-12 px-6 font-semibold rounded-xl text-stone-700 hover:bg-stone-200/80 border border-border"
           >
             Add option
           </Button>
-          <Button 
-            type="submit" 
+          <Button
+            type="submit"
             disabled={loading}
-            className="h-12 px-8 font-semibold bg-primary text-primary-foreground hover:bg-stone-800 rounded-xl"
+            className="h-12 px-8 font-semibold rounded-xl bg-gradient-to-b from-stone-800 to-stone-900 text-white shadow-md hover:shadow-lg hover:from-stone-900 hover:to-stone-950 transition-all"
           >
             {loading ? "Creating..." : "Create poll"}
           </Button>
         </div>
 
         {errors.length > 0 && (
-          <div className="text-sm font-medium text-destructive bg-destructive/5 p-3 rounded-lg border border-destructive/10 animate-in fade-in slide-in-from-top-1">
+          <div className="text-sm font-medium text-destructive bg-destructive/10 p-4 rounded-xl border border-destructive/20 animate-in fade-in slide-in-from-top-1">
             {errors.length === 1 ? (
                 <p>{errors[0]}</p>
             ) : (

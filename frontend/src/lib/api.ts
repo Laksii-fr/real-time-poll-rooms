@@ -36,12 +36,25 @@ export async function createPoll(data: { question: string; options: string[] }) 
 }
 
 export async function getPoll(pollId: string) {
-  const response = await fetch(`${API_URL}/api/v1/polls/${pollId}`, {
+  const url = `${API_URL}/api/v1/polls/${pollId}`;
+  const response = await fetch(url, {
     credentials: 'include',
+    // Next.js server components: avoid caching so we get fresh data
+    cache: 'no-store',
+    headers: { 'Accept': 'application/json' },
   });
   if (!response.ok) {
     if (response.status === 404) throw new Error('Poll not found');
-    throw new Error('Failed to fetch poll');
+    let detail = 'Failed to fetch poll';
+    try {
+      const body = await response.json();
+      detail = typeof body?.detail === 'string' ? body.detail : body?.message || detail;
+    } catch {
+      detail = `${detail} (${response.status})`;
+    }
+    const error = new Error(detail) as Error & { status?: number };
+    error.status = response.status;
+    throw error;
   }
   return response.json();
 }

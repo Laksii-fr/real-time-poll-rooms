@@ -1,3 +1,4 @@
+import uuid
 import app.models.db_models as Models
 from app.models.request_models import PollCreate
 from app.database import async_session_maker
@@ -48,23 +49,30 @@ async def create_poll(poll_data: PollCreate):
 
 async def get_poll(poll_id: str):
     try:
+        try:
+            poll_uuid = uuid.UUID(poll_id)
+        except (ValueError, TypeError):
+            raise HTTPException(
+                status_code=status.HTTP_404_NOT_FOUND,
+                detail="Poll not found",
+            )
         async with async_session_maker() as session:
             result = await session.execute(
                 select(Models.Poll)
-                .where(Models.Poll.id == poll_id)
+                .where(Models.Poll.id == poll_uuid)
                 .options(selectinload(Models.Poll.options))
             )
             poll_obj = result.scalar_one_or_none()
             if not poll_obj:
                 raise HTTPException(
-                    status_code=status.HTTP_404_NOT_FOUND, 
-                    detail="Poll not found"
+                    status_code=status.HTTP_404_NOT_FOUND,
+                    detail="Poll not found",
                 )
             return poll_obj
     except HTTPException as he:
         raise he
     except Exception as e:
         raise HTTPException(
-            status_code=status.HTTP_500_INTERNAL_SERVER_ERROR, 
-            detail=f"500: {str(e)}"
+            status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
+            detail=f"500: {str(e)}",
         )

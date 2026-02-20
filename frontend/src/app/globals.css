@@ -89,9 +89,13 @@
     @apply border-border outline-ring/50;
   }
   body {
-    @apply bg-background text-foreground selection:bg-stone-200 flex items-center justify-center font-sans;
+    @apply bg-background text-foreground selection:bg-stone-200/80 flex items-center justify-center font-sans;
     min-height: 100vh;
     padding: 2rem;
+    background-image:
+      radial-gradient(ellipse 80% 50% at 50% -20%, rgba(217, 165, 153, 0.15), transparent),
+      radial-gradient(ellipse 60% 40% at 100% 50%, rgba(220, 197, 178, 0.12), transparent),
+      radial-gradient(ellipse 60% 40% at 0% 50%, rgba(220, 197, 178, 0.08), transparent);
   }
 
   input::placeholder, 
@@ -107,6 +111,37 @@
   box-shadow: 0 20px 25px -5px rgba(28, 25, 23, 0.08), 0 10px 10px -5px rgba(28, 25, 23, 0.03);
 }
 
+.shadow-hero {
+  box-shadow:
+    0 0 0 1px rgba(220, 197, 178, 0.5),
+    0 25px 50px -12px rgba(28, 25, 23, 0.12),
+    0 12px 24px -8px rgba(28, 25, 23, 0.06);
+}
+
 .card-border {
   border: 1px solid rgba(220, 197, 178, 0.4);
+}
+
+/* Gradient text for hero / section titles */
+.text-gradient-hero {
+  background: linear-gradient(135deg, #1c1917 0%, #44403c 50%, #1c1917 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.text-gradient-warm {
+  background: linear-gradient(135deg, #b45309 0%, #92400e 40%, #78350f 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+/* Subtle hover lift for cards */
+.hover-lift {
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+.hover-lift:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 20px 40px -15px rgba(28, 25, 23, 0.12);
 }

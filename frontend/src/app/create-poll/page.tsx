@@ -92,23 +92,28 @@ export default function CreatePollPage() {
   };
 
   return (
-    <div className="w-full max-w-5xl mx-auto min-h-screen flex flex-col items-center pt-8 pb-12 px-4">
-      {/* Single centered title at top - larger */}
-      <h1 className="text-5xl md:text-6xl font-serif font-bold text-stone-900 text-center mb-10">
-        CrowdSnap
-      </h1>
+    <div className="w-full max-w-5xl mx-auto min-h-screen flex flex-col items-center pt-6 md:pt-10 pb-16 px-4">
+      {/* Hero: gradient title + tagline */}
+      <header className="text-center mb-8 md:mb-12">
+        <h1 className="text-5xl md:text-7xl font-serif font-bold text-gradient-hero tracking-tight mb-3">
+          CrowdSnap
+        </h1>
+        <p className="text-stone-500 text-lg md:text-xl font-medium max-w-md mx-auto">
+          Live polls in seconds. Create, share, see results—instantly.
+        </p>
+      </header>
 
-      <Card className="w-full shadow-soft card-border p-8 pt-6 overflow-hidden">
-        {/* Tabs on the card only */}
-        <div className="flex border-b border-border mb-8">
+      <Card className="w-full shadow-hero card-border rounded-2xl p-8 pt-6 overflow-hidden bg-card/95 backdrop-blur-sm">
+        {/* Tabs: pill-style with clear active state */}
+        <div className="flex gap-1 p-1 rounded-xl bg-stone-100/80 border border-border/60 mb-8">
           <button
             type="button"
             onClick={() => setActiveTab("manual")}
             className={cn(
-              "flex-1 flex items-center justify-center gap-2 py-3 px-4 text-sm font-semibold transition-colors border-b-2 -mb-px",
+              "flex-1 flex items-center justify-center gap-2 py-3 px-4 text-sm font-semibold rounded-lg transition-all duration-200",
               activeTab === "manual"
-                ? "border-foreground text-foreground"
-                : "border-transparent text-muted-foreground hover:text-foreground"
+                ? "bg-white text-foreground shadow-sm border border-border/50"
+                : "text-muted-foreground hover:text-foreground hover:bg-white/50"
             )}
           >
             <Pencil className="h-4 w-4" />
@@ -118,13 +123,13 @@ export default function CreatePollPage() {
             type="button"
             onClick={() => setActiveTab("ai")}
             className={cn(
-              "flex-1 flex items-center justify-center gap-2 py-3 px-4 text-sm font-semibold transition-colors border-b-2 -mb-px",
+              "flex-1 flex items-center justify-center gap-2 py-3 px-4 text-sm font-semibold rounded-lg transition-all duration-200",
               activeTab === "ai"
-                ? "border-foreground text-foreground"
-                : "border-transparent text-muted-foreground hover:text-foreground"
+                ? "bg-white text-foreground shadow-sm border border-border/50"
+                : "text-muted-foreground hover:text-foreground hover:bg-white/50"
             )}
           >
-            <Sparkles className="h-4 w-4" />
+            <Sparkles className="h-4 w-4 text-amber-600" />
             Generate using AI
           </button>
         </div>
@@ -155,13 +160,13 @@ export default function CreatePollPage() {
                 onChange={(e) => setPrompt(e.target.value)}
                 disabled={generating}
                 maxLength={1000}
-                className="min-h-[80px] w-full flex-1 rounded-md border border-input bg-white px-3 py-2 text-base shadow-sm placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:opacity-50 resize-y"
+                className="min-h-[88px] w-full flex-1 rounded-xl border border-input bg-white/80 px-4 py-3 text-base shadow-sm placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-amber-400/50 focus-visible:border-amber-400/50 disabled:opacity-50 resize-y transition-shadow"
               />
               <Button
                 type="button"
                 onClick={handleGenerate}
                 disabled={generating}
-                className="self-end h-11 px-6 font-semibold bg-amber-600 hover:bg-amber-700 text-white"
+                className="self-end h-11 px-6 font-semibold rounded-xl bg-gradient-to-b from-amber-500 to-amber-600 hover:from-amber-600 hover:to-amber-700 text-white shadow-md hover:shadow-lg transition-all"
               >
                 {generating ? "Generating…" : "Generate"}
               </Button>
@@ -191,49 +196,56 @@ export default function CreatePollPage() {
       <ScrollHint />
 
       {/* Landing-style content below the poll */}
-      <section className="w-full mt-8 text-center">
-        <h2 className="text-2xl md:text-3xl font-bold text-stone-900 mb-2">
+      <section className="w-full mt-10 text-center">
+        <h2 className="text-2xl md:text-4xl font-bold text-gradient-hero mb-3">
           Why CrowdSnap?
         </h2>
-        <p className="text-muted-foreground max-w-xl mx-auto mb-14">
+        <p className="text-muted-foreground max-w-xl mx-auto mb-16 text-base md:text-lg">
           Create, share, and vote on polls with live results. Perfect for meetings, events, and quick feedback.
         </p>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 text-left mb-20">
-          {FEATURES.map(({ icon: Icon, title, description }) => (
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 text-left mb-24">
+          {FEATURES.map(({ icon: Icon, title, description }, idx) => (
             <div
               key={title}
-              className="rounded-xl border border-border bg-card p-6 shadow-sm hover:shadow-md transition-shadow"
+              className="rounded-2xl border border-border bg-card p-6 shadow-sm hover-lift overflow-hidden group"
             >
-              <div className="flex items-center gap-3 mb-3">
-                <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-stone-100 text-stone-700">
-                  <Icon className="h-5 w-5" />
+              <div className="flex items-center gap-4 mb-4">
+                <div
+                  className={cn(
+                    "flex h-12 w-12 shrink-0 items-center justify-center rounded-xl transition-transform group-hover:scale-105",
+                    idx === 1
+                      ? "bg-amber-100 text-amber-700"
+                      : "bg-stone-100 text-stone-700"
+                  )}
+                >
+                  <Icon className="h-6 w-6" />
                 </div>
-                <h3 className="font-semibold text-foreground">{title}</h3>
+                <h3 className="font-semibold text-foreground text-lg">{title}</h3>
               </div>
-              <p className="text-sm text-muted-foreground leading-relaxed">
+              <p className="text-sm text-muted-foreground leading-relaxed pl-0">
                 {description}
               </p>
             </div>
           ))}
         </div>
 
-        <h2 className="text-2xl md:text-3xl font-bold text-stone-900 mb-2">
+        <h2 className="text-2xl md:text-4xl font-bold text-gradient-hero mb-3">
           How it works
         </h2>
-        <p className="text-muted-foreground max-w-xl mx-auto mb-12">
+        <p className="text-muted-foreground max-w-xl mx-auto mb-14 text-base">
           Three steps from idea to live results.
         </p>
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-4xl mx-auto">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-10 max-w-4xl mx-auto">
           {STEPS.map(({ step, title, body }, i) => (
             <div key={step} className="relative flex flex-col items-center text-center">
-              <div className="flex h-12 w-12 items-center justify-center rounded-full bg-stone-900 text-white font-bold text-lg mb-4">
+              <div className="flex h-14 w-14 items-center justify-center rounded-2xl bg-gradient-to-br from-stone-800 to-stone-900 text-white font-bold text-xl mb-5 shadow-lg">
                 {step}
               </div>
-              <h3 className="font-semibold text-foreground mb-2">{title}</h3>
-              <p className="text-sm text-muted-foreground">{body}</p>
+              <h3 className="font-semibold text-foreground text-lg mb-2">{title}</h3>
+              <p className="text-sm text-muted-foreground max-w-[200px]">{body}</p>
               {i < STEPS.length - 1 && (
-                <ArrowRight className="hidden md:block absolute -right-4 top-6 h-5 w-5 text-stone-300" />
+                <ArrowRight className="hidden md:block absolute -right-2 top-7 h-6 w-6 text-stone-300" />
               )}
             </div>
           ))}
